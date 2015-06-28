@@ -47,3 +47,4 @@ docker run \
 mkdir -p $DISTDIR
 zip -qr9 $DISTDIR/FFmpeg_sources.zip $WORKDIR -x *.so *.o *.git*
 cp -R $WORKDIR/DISTRIBUTION.md $WORKDIR/changes.diff $WORKDIR/android $DISTDIR
+cp Android.mk $DISTDIR/android/arm/

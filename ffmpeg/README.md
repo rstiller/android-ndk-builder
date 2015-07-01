@@ -1,7 +1,7 @@
 #FFmpeg ndk builder
 
-This build script compiles the FFmpeg library for the android plattform.
-It produces only the so files and headers, provides an DISTRIBUTION discleimer and zips the source code in the dist folder.
+This build script compiles the FFmpeg library for the android platform.
+It produces only the so files and headers, provides an DISTRIBUTION disclaimer and zips the source code in the dist folder.
 
 #PATENT DISCLAIMER
 We do not grant of patent rights. Some codecs use patented techniques and before use those parts of library you have to buy thrid-party patents.

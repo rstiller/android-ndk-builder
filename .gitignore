@@ -2,3 +2,4 @@ ffmpeg/dist/
 ffmpeg/ffmpeg/
 ffmpeg/work/
 ndk-builder/Dockerfile-*
+.project

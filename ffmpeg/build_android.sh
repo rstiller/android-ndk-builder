@@ -17,6 +17,7 @@ git diff > changes.diff
 CONFIGURE_PARAMS="--prefix=$PREFIX \
 --pkg-config=/ffmpeg/fake-pkg-config \
 --enable-shared \
+--enable-pic \
 --disable-static \
 --disable-doc \
 --disable-ffmpeg \

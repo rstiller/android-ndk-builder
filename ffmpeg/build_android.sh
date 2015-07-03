@@ -10,15 +10,17 @@ sed -i '0,/SLIB_INSTALL_LINKS=.*/{s/SLIB_INSTALL_LINKS=.*/SLIB_INSTALL_LINKS='\'
 TOOLCHAIN=$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64
 CPU=arm
 PREFIX=$(pwd)/android/$CPU
-EXTRA_CFLAGS="-Os -fpic -marm -mfpu=neon"
+EXTRA_CFLAGS="-Os -fpic -marm -mfpu=neon --static"
+ADDI_LDFLAGS="--static"
 
 git diff > changes.diff
 
 CONFIGURE_PARAMS="--prefix=$PREFIX \
 --pkg-config=/ffmpeg/fake-pkg-config \
---enable-shared \
 --enable-pic \
---disable-static \
+--disable-debug \
+--disable-shared \
+--enable-static
 --disable-doc \
 --disable-ffmpeg \
 --disable-ffplay \
@@ -32,7 +34,7 @@ CONFIGURE_PARAMS="--prefix=$PREFIX \
 --arch=arm \
 --enable-cross-compile \
 --sysroot=$SYSROOT \
---extra-ldflags=$ADDI_LDFLAGS \
+--extra-ldflags=\$ADDI_LDFLAGS \
 --extra-cflags=\$EXTRA_CFLAGS"
 
 echo "$CONFIGURE_PARAMS" >> DISTRIBUTION.md

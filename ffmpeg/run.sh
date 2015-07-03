@@ -45,9 +45,9 @@ docker run \
     /ffmpeg/build_android.sh
 
 mkdir -p $DISTDIR
-zip -qr9 $DISTDIR/FFmpeg_sources.zip $WORKDIR -x *.so *.o *.git*
+zip -qr9 $DISTDIR/FFmpeg_sources.zip $WORKDIR -x *.a *.so *.o *.git*
 cp -R $WORKDIR/DISTRIBUTION.md $WORKDIR/changes.diff $WORKDIR/android $DISTDIR
 cp Android.mk $DISTDIR/android/arm/
 
-cd $DISTDIR/android/arm/lib
-for f in *.so; do if [ -L "$f" ]; then rm -f $f; fi; done
+#cd $DISTDIR/android/arm/lib
+#for f in *.so; do if [ -L "$f" ]; then rm -f $f; fi; done

@@ -11,13 +11,14 @@ TOOLCHAIN=$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64
 CPU=arm
 PREFIX=$(pwd)/android/$CPU
 EXTRA_CFLAGS="-Os -fpic -marm -mfpu=neon --static"
-ADDI_LDFLAGS="--static"
+ADDI_LDFLAGS="--static -lz"
 
 git diff > changes.diff
 
 CONFIGURE_PARAMS="--prefix=$PREFIX \
 --pkg-config=/ffmpeg/fake-pkg-config \
 --enable-pic \
+--enable-zlib \
 --disable-debug \
 --disable-shared \
 --enable-static

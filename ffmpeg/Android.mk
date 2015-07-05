@@ -4,7 +4,8 @@ include $(CLEAR_VARS)
 LOCAL_MODULE:= libavcodec
 LOCAL_SRC_FILES:= lib/libavcodec.a
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include
-LOCAL_LDLIBS := -L$(SYSROOT)/usr/lib -lz
+LOCAL_STATIC_LIBRARIES := libswresample
+LOCAL_LDLIBS := -L$(LOCAL_PATH)/lib -L$(SYSROOT)/usr/lib -lz
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)

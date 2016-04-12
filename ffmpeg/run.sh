@@ -25,29 +25,32 @@ if [ ! -d "./ffmpeg/" ]; then
     git clone git://source.ffmpeg.org/ffmpeg.git ffmpeg
 fi
 
-sudo rm -fr $WORKDIR
-cp -R ffmpeg $WORKDIR
-cp DISTRIBUTION.md $WORKDIR
-cd $WORKDIR
-
-git checkout $FFMPEG_VERSION
-cp -f ../build_android.sh ../fake-pkg-config .
-chmod a+x fake-pkg-config build_android.sh
-
-cd ..
-
-docker run \
-    -it \
-    --rm \
-    -v `pwd`/$WORKDIR:/ffmpeg \
-    -w="/ffmpeg" \
-    android-ndk-builder:arm-android-17 \
-    /ffmpeg/build_android.sh
-
 mkdir -p $DISTDIR
-zip -qr9 $DISTDIR/FFmpeg_sources.zip $WORKDIR -x *.a *.so *.o *.git*
-cp -R $WORKDIR/DISTRIBUTION.md $WORKDIR/changes.diff $WORKDIR/android $DISTDIR
-cp Android.mk $DISTDIR/android/arm/
+cp DISTRIBUTION.md $DISTDIR
 
-#cd $DISTDIR/android/arm/lib
-#for f in *.so; do if [ -L "$f" ]; then rm -f $f; fi; done
+function setup() {
+    rm -fr $WORKDIR
+    cp -R ffmpeg $WORKDIR
+    cd $WORKDIR
+
+    git checkout $FFMPEG_VERSION
+    cp -f ../build_android.sh ../fake-pkg-config .
+    chmod a+x fake-pkg-config build_android.sh
+
+    cd ..
+}
+
+function build() {
+    setup
+    docker run -it --rm -v `pwd`/$WORKDIR:/ffmpeg -w="/ffmpeg" android-ndk-builder:$1 /ffmpeg/build_android.sh "$2" "$3" "$4" "$5"
+    zip -qr9 $DISTDIR/FFmpeg_sources-$2.zip $WORKDIR -x *.a *.so *.o *.git*
+    cp -R $WORKDIR/changes*.diff $WORKDIR/android $DISTDIR
+    cp Android.mk $DISTDIR/android/$2/
+    cat $WORKDIR/__CONFIGURE__.txt >> $DISTDIR/DISTRIBUTION.md
+}
+
+# for each arch
+build "arm-android-21"    "arm"    "arm"    "-marm -mfpu=neon"                            ""
+build "arm64-android-21"  "arm64"  "arm64"  "-marm64 -mfpu=neon"                          ""
+build "x86-android-21"    "x86"    "x86"    "-march=atom -msse3 -ffast-math -mfpmath=sse" "--disable-amd3dnow --disable-amd3dnowext --enable-asm --enable-yasm"
+build "x86_64-android-21" "x86_64" "x86_64" "-march=atom -msse3 -ffast-math -mfpmath=sse" "--disable-amd3dnow --disable-amd3dnowext --enable-asm --enable-yasm"

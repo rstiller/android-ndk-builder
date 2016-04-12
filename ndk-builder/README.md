@@ -12,7 +12,7 @@ This image sets up the ndk environment and set the environment variables accordi
 
 Where 'arm' is the architechture and '17' is the Android SDK Level.
 
-For an example usage take a look at this repositories other folders.
+For an example usage take a look at this repository's other folders.
 
 In most cases you use the builder by running the container with the sources mounted
 in a folder and a build-script compiling the sources.
